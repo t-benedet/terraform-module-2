@@ -46,12 +46,12 @@ module "sa" {
     source   = "git@github.com:t-benedet/tf-azure-module-storage-account.git"
 
     name                = lower("sa${var.project}${var.ENVIRONMENT}")
-    resource_group_name = module.rg.rg-name
+    resource_group_name = var.resource_group_name
     resource_location   = var.RESOURCELOCATION
     account_tier        = "Standard"
     account_repl_type   = "GRS"
     kv_name             = lower("kv-${var.project}-${var.ENVIRONMENT}")
-    kv_rgname           = module.rg.rg-name
+    kv_rgname           = var.resource_group_name
     tags = {
         environment = var.ENVIRONMENT
         description   = "${var.description} Storage Account"
