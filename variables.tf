@@ -45,7 +45,7 @@ variable "ENVIRONMENT" {
   description = "Environnment type"
   type        = string
 
-  default = "dev"
+  default = "dev2"
 }
 
 variable "owner" {
