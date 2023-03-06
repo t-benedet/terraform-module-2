@@ -13,8 +13,8 @@ resource "azurerm_resource_group" "rg" {
     name               = var.resource_group_name
     location           = var.resource_group_location
     #environment        = var.resource_group_environment
-    description        = var.resource_group_environment
-    project            = var.project
+    #description        = var.resource_group_environment
+    #project            = var.project
 }
 
 
@@ -38,7 +38,7 @@ module "kv" {
     }
 
     depends_on = [
-        module.rg
+        azurerm_resource_group.rg
     ]
 }
 
