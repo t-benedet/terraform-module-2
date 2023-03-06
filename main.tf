@@ -25,7 +25,7 @@ module "kv" {
     key_permissions = ["Get","Create","Delete"]
     keyvault_name                = lower("kv-${var.project}-${var.ENVIRONMENT}")
     purge_protection_enabled    = false
-    resource_group_name = module.rg.rg-name
+    resource_group_name = var.resource_group_name
     resource_location   = var.RESOURCELOCATION
     secret_permissions  = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
     sku_name    = "standard"
