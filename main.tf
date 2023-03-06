@@ -64,7 +64,7 @@ module "blob" {
     source   = "git@github.com:t-benedet/tf-azure-module-storage-container.git"
 
     container_access_type       = "private"
-    name                        =  "${module.sa.name}-tfstate"
+    name                        = "${module.sa.name}-tfstate"
     storage_account_name        = module.sa.name
 
     depends_on = [  module.sa ]
