@@ -15,6 +15,21 @@ variable "subscription_id" {
 variable "tenant_id" {
   description = "tenant ID"
 }
+
+############################# - Resource Group - ###############################
+
+variable "resource_group_name" {
+  type        = string
+  description = "Nom du groupe de ressources"
+  default     = "RG1-Fabryk-Test"
+}
+
+variable "resource_group_location" {
+  type        = string
+  description = "Emplacement du groupe de ressources"
+  default     = "westeurope"
+}
+
 ###################################################################################
 
 
