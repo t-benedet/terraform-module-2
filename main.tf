@@ -1,7 +1,7 @@
 locals {
   #resourceGroup = var.RESOURCEGROUPNAME
-  location      = var.RESOURCELOCATION
-  environment   = var.ENVIRONMENT
+  location      = var.resourcelocation
+  environment   = var.environment
   owner         = "example@kyndryl.com"
   description   = "demo lz deployment"
   project       = "lzdemo1"
@@ -21,58 +21,52 @@ resource "azurerm_resource_group" "rg" {
 module "kv" {
     source   = "git@github.com:t-benedet/tf-azure-module-keyvault.git"
 
-    enabled_for_disk_encryption = false
-    key_permissions = ["Get","Create","Delete"]
-    keyvault_name                = lower("kv-${var.project}-${var.ENVIRONMENT}")
-    purge_protection_enabled    = false
-    resource_group_name = var.resource_group_name
-    resource_location   = var.RESOURCELOCATION
-    secret_permissions  = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
-    sku_name    = "standard"
-    soft_delete_retention_days   = 7
-    storage_permissions = ["Backup", "Delete", "DeleteSAS", "Get", "GetSAS", "List", "ListSAS", "Purge", "Recover", "RegenerateKey", "Restore", "Set", "SetSAS", "Update"]
+    enabled_for_disk_encryption         = false
+    key_permissions                     = var.key_vault_key_permissions
+    keyvault_name                       = lower("kv-${var.project}-${var.environment}")
+    purge_protection_enabled            = false
+    resource_group_name                 = var.resource_group_name
+    resource_location                   = var.resourcelocation
+    secret_permissions                  = var.key_vault_secret_permissions
+    sku_name                            = var.key_vault_sku_name
+    soft_delete_retention_days          = var.key_vault_retention
+    storage_permissions                 = var.key_vault_storage_permissions
     tags = {
-        environment = var.ENVIRONMENT
+        environment = var.environment
         description   = "${var.description} Key Vault"
         project    = var.project
     }
 
-    depends_on = [
-        azurerm_resource_group.rg
-    ]
+    depends_on = [ azurerm_resource_group.rg ]
 }
 
 module "sa" {
     source   = "git@github.com:t-benedet/tf-azure-module-storage-account.git"
 
-    name                = lower("sa${var.project}${var.ENVIRONMENT}")
-    resource_group_name = var.resource_group_name
-    resource_location   = var.RESOURCELOCATION
-    account_tier        = "Standard"
-    account_repl_type   = "GRS"
-    kv_name             = lower("kv-${var.project}-${var.ENVIRONMENT}")
-    kv_rgname           = var.resource_group_name
+    name                        = lower("sa${var.project}${var.environment}")
+    resource_group_name         = var.resource_group_name
+    resource_location           = var.resourcelocation
+    account_tier                = var.storage_account_tier
+    account_replication_type    = var.storage_account_replication_type 
+    kv_name                     = lower("kv-${var.project}-${var.environment}")
+    kv_rgname                   = var.resource_group_name
     tags = {
-        environment = var.ENVIRONMENT
+        environment = var.environment
         description   = "${var.description} Storage Account"
         project    = var.project
     }
 
-    depends_on = [
-        module.kv
-    ]
+    depends_on = [ module.kv ]
 
 }
 
 module "blob" {
     source   = "git@github.com:t-benedet/tf-azure-module-storage-container.git"
 
-    container_access_type = "private"
-    name    =   "${module.sa.name}-tfstate"
-    storage_account_name = module.sa.name
+    container_access_type       = "private"
+    name                        =  "${module.sa.name}-tfstate"
+    storage_account_name        = module.sa.name
 
-    depends_on = [
-        module.sa
-    ]
+    depends_on = [  module.sa ]
 
 }

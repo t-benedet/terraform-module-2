@@ -30,18 +30,31 @@ variable "resource_group_location" {
   default     = "westeurope"
 }
 
-###################################################################################
+############################# - Storage Account - ###############################
+
+variable "storage_account_tier" {
+  type        = string
+  description = "Fabryk-storage-account-tier"
+  default     = "Standard"
+}
+
+variable "storage_account_replication_type" {
+  type        = string
+  description = "Fabryk-storage-account-replication-type"
+  default     = "GRS"
+}
 
 
+############################# - Informations - ###############################
 
-variable "RESOURCELOCATION" {
+variable "resourcelocation" {
   description = "Location of resource group"
   type        = string
 
   default = "westeurope"
 }
 
-variable "ENVIRONMENT" {
+variable "environment" {
   description = "Environnment type"
   type        = string
 
@@ -67,4 +80,38 @@ variable "project" {
   type        = string
 
   default = "project"
+}
+
+
+############################# - Key Vault - ###############################
+
+
+variable "key_vault_sku_name" {
+  type        = string
+  description = "SKU du coffre de clés"
+  default     = "standard"
+}
+
+variable "key_vault_secret_permissions" {
+  type        = list(string)
+  description = "Liste des autorisations de secret pour le coffre de clés"
+  default     = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
+}
+
+variable "key_vault_storage_permissions" {
+  type        = list(string)
+  description = "Liste des autorisations de secret pour le coffre de clés"
+  default     = ["Backup", "Delete", "DeleteSAS", "Get", "GetSAS", "List", "ListSAS", "Purge", "Recover", "RegenerateKey", "Restore", "Set", "SetSAS", "Update"]
+}
+
+variable "key_vault_key_permissions" {
+  type        = list(string)
+  description = "Liste des autorisations de clé pour le coffre de clés"
+  default     = ["Get","Create","Delete"]
+}
+
+variable "key_vault_retention" {
+  type        = string
+  description = "soft delete retention days"
+  default     = "7"
 }
