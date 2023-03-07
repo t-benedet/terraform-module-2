@@ -18,5 +18,5 @@ provider "azurerm" {
 
 
 prodiver "github" {
-    token    = var.TOKEN
+    token    = var.TF_VAR_GITHUB_TOKEN
 }
