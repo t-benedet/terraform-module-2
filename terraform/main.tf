@@ -19,8 +19,9 @@ resource "azurerm_resource_group" "rg" {
 
 
 module "kv" {
-    source   = "git@github.com:t-benedet/tf-azure-module-keyvault.git"
-  
+    #source   = "git@github.com:t-benedet/tf-azure-module-keyvault.git"
+    source = "https://x-access-token:${TOKEN}@github.com/t-benedet/tf-azure-module-keyvault.git"
+
     enabled_for_disk_encryption         = false
     key_permissions                     = var.key_vault_key_permissions
     keyvault_name                       = lower("kv-${var.project}-${var.environment}")
@@ -41,8 +42,9 @@ module "kv" {
 }
 
 module "sa" {
-    source   = "git@github.com:t-benedet/tf-azure-module-storage-account.git"
-   
+    #source   = "git@github.com:t-benedet/tf-azure-module-storage-account.git"
+    source = "https://x-access-token:${TOKEN}@github.com/t-benedet/tf-azure-module-storage-account.git"
+
     name                        = lower("sa${var.project}${var.environment}")
     resource_group_name         = var.resource_group_name
     resource_location           = var.resourcelocation
@@ -61,7 +63,8 @@ module "sa" {
 }
 
 module "blob" {
-    source   = "git@github.com:t-benedet/tf-azure-module-storage-container.git"
+    #source   = "git@github.com:t-benedet/tf-azure-module-storage-container.git"
+    source = "https://x-access-token:${TOKEN}@github.com/t-benedet/tf-azure-module-storage-container.git"
 
     container_access_type       = "private"
     name                        = "${module.sa.name}-tfstate"
