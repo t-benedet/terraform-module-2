@@ -85,7 +85,6 @@ variable "project" {
 
 ############################# - Key Vault - ###############################
 
-
 variable "key_vault_sku_name" {
   type        = string
   description = "SKU du coffre de clés"
