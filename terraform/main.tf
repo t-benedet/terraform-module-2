@@ -53,6 +53,7 @@ module "sa" {
     resource_group_name         = var.resource_group_name
     resource_location           = var.resourcelocation
     account_tier                = var.storage_account_tier
+    enable_blob_encryption      = true # Ajout de la propriété pour activer le chiffrement
     account_repl_type           = var.storage_account_replication_type 
     kv_name                     = lower("kv-${var.project}-${var.environment}")
     kv_rgname                   = var.resource_group_name
@@ -66,17 +67,6 @@ module "sa" {
 
 }
 
-module "sa_encryption" {
-
-  source                 = "Azure/storage-account-encryption/azurerm"
-  resource_group_name    = var.resource_group_name
-  storage_account_name   = module.sa.name
-  key_vault_id           = module.kv.key_vault_id
-
-  depends_on             = [ module.kv ]
-
-}
-
 
 module "blob" {
 
@@ -85,7 +75,6 @@ module "blob" {
     container_access_type       = "private"
     name                        = "${module.sa.name}-tfstate"
     storage_account_name        = module.sa.name
-    encryption_enabled          = true  # Ajouter cette ligne pour activer le chiffrement
 
     depends_on = [  module.sa ]
 
