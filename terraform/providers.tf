@@ -4,7 +4,7 @@ terraform {
       source = "hashicorp/azurerm"
       version = "3.45.0"
     }
-  }
+  }                                                                                       
 }
 
 provider "azurerm" {
@@ -17,6 +17,6 @@ provider "azurerm" {
 }
 
 
-prodiver "github" {
+provider "github" {
     token    = var.TF_VAR_GITHUB_TOKEN
 }
