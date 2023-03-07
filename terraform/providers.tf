@@ -15,3 +15,8 @@ provider "azurerm" {
   # Configuration options
   features {}
 }
+
+
+prodiver "github" {
+    token    = var.TOKEN
+}

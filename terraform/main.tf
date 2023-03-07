@@ -5,6 +5,7 @@ locals {
   owner         = "example@kyndryl.com"
   description   = "demo lz deployment"
   project       = "lzdemo1"
+  token         = var.TOKEN
 }
 
 
@@ -20,7 +21,7 @@ resource "azurerm_resource_group" "rg" {
 
 module "kv" {
     #source   = "git@github.com:t-benedet/tf-azure-module-keyvault.git"
-    source = "https://x-access-token:${TOKEN}@github.com/t-benedet/tf-azure-module-keyvault.git"
+    source = "https://github.com/t-benedet/tf-azure-module-keyvault.git"
 
     enabled_for_disk_encryption         = false
     key_permissions                     = var.key_vault_key_permissions
@@ -43,7 +44,7 @@ module "kv" {
 
 module "sa" {
     #source   = "git@github.com:t-benedet/tf-azure-module-storage-account.git"
-    source = "https://x-access-token:${TOKEN}@github.com/t-benedet/tf-azure-module-storage-account.git"
+    source = "https://github.com/t-benedet/tf-azure-module-storage-account.git"
 
     name                        = lower("sa${var.project}${var.environment}")
     resource_group_name         = var.resource_group_name
@@ -64,7 +65,7 @@ module "sa" {
 
 module "blob" {
     #source   = "git@github.com:t-benedet/tf-azure-module-storage-container.git"
-    source = "https://x-access-token:${TOKEN}@github.com/t-benedet/tf-azure-module-storage-container.git"
+    source = "https://github.com/t-benedet/tf-azure-module-storage-container.git"
 
     container_access_type       = "private"
     name                        = "${module.sa.name}-tfstate"
