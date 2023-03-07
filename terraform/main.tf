@@ -1,11 +1,12 @@
 locals {
+
   #resourceGroup = var.RESOURCEGROUPNAME
   location      = var.resourcelocation
   environment   = var.environment
   owner         = "example@kyndryl.com"
   description   = "demo lz deployment"
   project       = "lzdemo1"
-  token         = var.TOKEN
+  #token         = var.TOKEN
 }
 
 
@@ -13,16 +14,17 @@ resource "azurerm_resource_group" "rg" {
 
     name               = var.resource_group_name
     location           = var.resource_group_location
-    #environment        = var.resource_group_environment
-    #description        = var.resource_group_environment
-    #project            = var.project
+    tags = {
+        environment    = var.environment
+        description    = "${var.description} resource group"
+        project        = var.project
+    }
 }
 
 
 module "kv" {
-    #source   = "git@github.com:t-benedet/tf-azure-module-keyvault.git"
-    source   = "git::https://github.com/t-benedet/tf-azure-module-keyvault.git"
-    #source   = "https://x-access-token:${var.token}@github.com/t-benedet/tf-azure-module-keyvault.git"
+
+    source   = "git@github.com:t-benedet/tf-azure-module-keyvault.git"
 
     enabled_for_disk_encryption         = false
     key_permissions                     = var.key_vault_key_permissions
@@ -35,18 +37,31 @@ module "kv" {
     soft_delete_retention_days          = var.key_vault_retention
     storage_permissions                 = var.key_vault_storage_permissions
     tags = {
-        environment = var.environment
+        environment   = var.environment
         description   = "${var.description} Key Vault"
-        project    = var.project
+        project       = var.project
     }
 
     depends_on = [ azurerm_resource_group.rg ]
 }
 
+resource "azurerm_key_vault_key" "vault_key" {
+
+    azurerm_key_vault_key_name          = lower("kv-${var.project}-${var.environment}-key")
+    azurerm_key_vault_key_type          = "RSA"
+    azurerm_key_vault_key_size          = 2048
+    azurerm_key_vault_key_options       = ["decrypt", "encrypt", "sign", "verify"]
+    azurerm_key_vault_key_id            = module.kv.id 
+
+    depends_on = [
+      module.kv
+    ]
+}
+
+
 module "sa" {
-    #source   = "git@github.com:t-benedet/tf-azure-module-storage-account.git"
-    source   = "git::https://github.com/t-benedet/tf-azure-module-storage-account.git"
-    #source   = "https://x-access-token:${var.token}@github.com/t-benedet/tf-azure-module-storage-account.git"
+
+    source   = "git@github.com:t-benedet/tf-azure-module-storage-account.git"
 
     name                        = lower("sa${var.project}${var.environment}")
     resource_group_name         = var.resource_group_name
@@ -56,9 +71,9 @@ module "sa" {
     kv_name                     = lower("kv-${var.project}-${var.environment}")
     kv_rgname                   = var.resource_group_name
     tags = {
-        environment = var.environment
+        environment   = var.environment
         description   = "${var.description} Storage Account"
-        project    = var.project
+        project       = var.project
     }
 
     depends_on = [ module.kv ]
@@ -66,15 +81,14 @@ module "sa" {
 }
 
 module "blob" {
-    #source   = "git@github.com:t-benedet/tf-azure-module-storage-container.git"
-    source   = "git::https://github.com/t-benedet/tf-azure-module-storage-container.git"
-    #source   = "https://x-access-token:${var.token}@github.com/t-benedet/tf-azure-module-storage-container.git"
 
+    source   = "git@github.com:t-benedet/tf-azure-module-storage-container.git"
 
     container_access_type       = "private"
     name                        = "${module.sa.name}-tfstate"
-    storage_account_name        = module.sa.name
-
+    storage_account_name        =  module.sa.name
+    key_vault_id                =  module.kv.id 
+    
     depends_on = [  module.sa ]
 
 }
