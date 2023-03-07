@@ -45,20 +45,6 @@ module "kv" {
     depends_on = [ azurerm_resource_group.rg ]
 }
 
-resource "azurerm_key_vault_key" "vault_key" {
-
-    azurerm_key_vault_key_name          = lower("kv-${var.project}-${var.environment}-key")
-    azurerm_key_vault_key_type          = "RSA"
-    azurerm_key_vault_key_size          = 2048
-    azurerm_key_vault_key_options       = ["decrypt", "encrypt", "sign", "verify"]
-    azurerm_key_vault_key_id            = module.kv.id 
-
-    depends_on = [
-      module.kv
-    ]
-}
-
-
 module "sa" {
 
     source   = "git@github.com:t-benedet/tf-azure-module-storage-account.git"
@@ -87,8 +73,7 @@ module "blob" {
     container_access_type       = "private"
     name                        = "${module.sa.name}-tfstate"
     storage_account_name        =  module.sa.name
-    key_vault_id                =  module.kv.id 
-    
+
     depends_on = [  module.sa ]
 
 }
