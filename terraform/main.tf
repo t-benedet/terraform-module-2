@@ -53,7 +53,6 @@ module "sa" {
     resource_group_name         = var.resource_group_name
     resource_location           = var.resourcelocation
     account_tier                = var.storage_account_tier
-    enable_blob_encryption      = true # Ajout de la propriété pour activer le chiffrement
     account_repl_type           = var.storage_account_replication_type 
     kv_name                     = lower("kv-${var.project}-${var.environment}")
     kv_rgname                   = var.resource_group_name
@@ -67,6 +66,15 @@ module "sa" {
 
 }
 
+resource "azurerm_storage_encryption_scope" "encryption" {
+
+  name                  = "microsoftmanaged"
+  storage_account_id    = module.sa.id
+  source                = "Microsoft.Storage"
+
+  depends_on = [ module.kv ]
+
+}
 
 module "blob" {
 
