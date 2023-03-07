@@ -26,8 +26,6 @@ jobs:
     steps:
     - name: "[+] Checkout code"
       uses: actions/checkout@v2
-      env:
-        GITHUB_TOKEN: ${{sere}}
 
     - name: "[+] Install AZ Cli"
       run: |
