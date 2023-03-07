@@ -53,7 +53,7 @@ module "sa" {
     resource_group_name         = var.resource_group_name
     resource_location           = var.resourcelocation
     account_tier                = var.storage_account_tier
-    account_replication_type    = var.storage_account_replication_type 
+    account_repl_type           = var.storage_account_replication_type 
     kv_name                     = lower("kv-${var.project}-${var.environment}")
     kv_rgname                   = var.resource_group_name
     tags = {
