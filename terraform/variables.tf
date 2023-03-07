@@ -21,7 +21,7 @@ variable "tenant_id" {
 variable "resource_group_name" {
   type        = string
   description = "Nom du groupe de ressources"
-  default     = "RG3-Fabryk-Test"
+  default     = "RG4-Fabryk-Test"
 }
 
 variable "resource_group_location" {
@@ -58,7 +58,7 @@ variable "environment" {
   description = "Environnment type"
   type        = string
 
-  default = "dev3"
+  default = "dev4"
 }
 
 variable "owner" {
