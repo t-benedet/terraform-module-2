@@ -26,7 +26,7 @@ jobs:
 
     - name: "[+] Github Enterprise configuration"
       run: |
-        git config --global url."https://${{ secrets.GITHUB_TOKEN }}":x-oauth-basic@github.com".insteadOf "https://github.com"
+        git config --global url."https://${{ secrets.GITHUB_TOKEN }}:x-oauth-basic@github.com".insteadOf "https://github.com"
 
     - name: "[+] Install AZ Cli"
       run: |
