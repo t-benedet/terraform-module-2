@@ -1,12 +1,10 @@
 locals {
 
-  #resourceGroup = var.RESOURCEGROUPNAME
   location      = var.resourcelocation
   environment   = var.environment
   owner         = "example@kyndryl.com"
   description   = "demo lz deployment"
   project       = "lzdemo1"
-  #token         = var.TOKEN
 }
 
 
@@ -69,15 +67,17 @@ module "sa" {
 
 }
 
-resource "azurerm_storage_encryption_scope" "encryption" {
+#### Encryption part disable > container encrypted by default with Microsoft. To use only with Cusotmer.Storage option
 
-  name                  = "microsoftmanaged"
-  storage_account_id    = module.sa.id
-  source                = "Microsoft.Storage"
-
-  depends_on = [ module.kv ]
-
-}
+#resource "azurerm_storage_encryption_scope" "encryption" {
+#
+#  name                  = "microsoftmanaged"
+#  storage_account_id    = module.sa.id
+#  source                = "Microsoft.Storage"
+#
+#  depends_on = [ module.kv ]
+#
+#}
 
 module "blob" {
 

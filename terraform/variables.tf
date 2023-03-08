@@ -1,7 +1,7 @@
 ############################# - Auth informations - ###############################
 
 variable "subscription_id" {
-  description = "Sub ID"
+  description = "Sub ID."
 }
 
 #variable "client_id" {
@@ -13,20 +13,20 @@ variable "subscription_id" {
 #}
 
 variable "tenant_id" {
-  description = "tenant ID"
+  description = "Tenant ID."
 }
 
 ############################# - Resource Group - ###############################
 
 variable "resource_group_name" {
   type        = string
-  description = "Nom du groupe de ressources"
+  description = "Resource group name."
   default     = "RG5-Fabryk-Test"
 }
 
 variable "resource_group_location" {
   type        = string
-  description = "Emplacement du groupe de ressources"
+  description = "Resource group location."
   default     = "westeurope"
 }
 
@@ -34,13 +34,13 @@ variable "resource_group_location" {
 
 variable "storage_account_tier" {
   type        = string
-  description = "Fabryk-storage-account-tier"
+  description = "Fabryk-storage-account-tier."
   default     = "Standard"
 }
 
 variable "storage_account_replication_type" {
   type        = string
-  description = "Fabryk-storage-account-replication-type"
+  description = "Fabryk-storage-account-replication-type."
   default     = "GRS"
 }
 
@@ -48,35 +48,35 @@ variable "storage_account_replication_type" {
 ############################# - Informations - ###############################
 
 variable "resourcelocation" {
-  description = "Location of resource group"
+  description = "Location of resource group."
   type        = string
 
   default = "westeurope"
 }
 
 variable "environment" {
-  description = "Environnment type"
+  description = "Environnment type."
   type        = string
 
   default = "dev5"
 }
 
 variable "owner" {
-  description = "Owner"
+  description = "Owner."
   type        = string
 
   default = "timothee.benedet@gmail.com"
 }
 
 variable "description" {
-  description = "Project description"
+  description = "Project description."
   type        = string
 
   default = "test"
 }
 
 variable "project" {
-  description = "Project Name"
+  description = "Project Name."
   type        = string
 
   default = "project"
@@ -87,30 +87,30 @@ variable "project" {
 
 variable "key_vault_sku_name" {
   type        = string
-  description = "SKU du coffre de clés"
+  description = "SKU of Key Vault."
   default     = "standard"
 }
 
 variable "key_vault_secret_permissions" {
   type        = list(string)
-  description = "Liste des autorisations de secret pour le coffre de clés"
+  description = "Key vault secret permissions."
   default     = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
 }
 
 variable "key_vault_storage_permissions" {
   type        = list(string)
-  description = "Liste des autorisations de secret pour le coffre de clés"
+  description = "Key vault storage secret permissions."
   default     = ["Backup", "Delete", "DeleteSAS", "Get", "GetSAS", "List", "ListSAS", "Purge", "Recover", "RegenerateKey", "Restore", "Set", "SetSAS", "Update"]
 }
 
 variable "key_vault_key_permissions" {
   type        = list(string)
-  description = "Liste des autorisations de clé pour le coffre de clés"
+  description = "Key vault keys  secret permissions."
   default     = ["Get","Create","Delete"]
 }
 
 variable "key_vault_retention" {
   type        = string
-  description = "Soft delete retention days"
+  description = "Soft delete retention days."
   default     = "7"
 }
