@@ -46,6 +46,6 @@
 | <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id) | Sub ID | `any` | n/a | yes |
 | <a name="input_tenant_id"></a> [tenant\_id](#input\_tenant\_id) | tenant ID | `any` | n/a | yes |
 
-## Outputs
+## Support & Author details
 
-No outputs.
+BENEDET Timothée
