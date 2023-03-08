@@ -111,6 +111,6 @@ variable "key_vault_key_permissions" {
 
 variable "key_vault_retention" {
   type        = string
-  description = "soft delete retention days"
+  description = "Soft delete retention days"
   default     = "7"
 }
